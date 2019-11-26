@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav">
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav"
+    app:startDestination="@id/titleFragment">
 
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="ca.vitos.guesstheword.views.game.GameFragment"
+        android:label="GameFragment" />
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="ca.vitos.guesstheword.views.title.TitleFragment"
+        android:label="TitleFragment" />
+    <fragment
+        android:id="@+id/scoreFragment"
+        android:name="ca.vitos.guesstheword.views.score.ScoreFragment"
+        android:label="ScoreFragment" />
 </navigation>
