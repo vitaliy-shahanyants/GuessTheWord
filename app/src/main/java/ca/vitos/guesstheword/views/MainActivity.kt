@@ -1,7 +1,8 @@
-package ca.vitos.guesstheword
+package ca.vitos.guesstheword.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import ca.vitos.guesstheword.R
 
 class MainActivity : AppCompatActivity() {
 
