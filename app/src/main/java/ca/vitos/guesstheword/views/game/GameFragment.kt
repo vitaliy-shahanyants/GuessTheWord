@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import ca.vitos.guesstheword.R
 import ca.vitos.guesstheword.databinding.GameFragmentBinding
+import ca.vitos.guesstheword.viewmodel.GameViewModel
 
 class GameFragment: Fragment() {
 
@@ -21,11 +23,15 @@ class GameFragment: Fragment() {
 
     private lateinit var binding: GameFragmentBinding
 
+    private lateinit var viewModel: GameViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.game_fragment,
