@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import ca.vitos.guesstheword.R
 import ca.vitos.guesstheword.databinding.ScoreFragmentBinding
 import ca.vitos.guesstheword.viewmodel.ScoreViewModel
@@ -24,7 +25,9 @@ class ScoreFragment: Fragment() {
 
         viewModelFactory = ScoreViewModelFactory(ScoreFragmentArgs.fromBundle(arguments!!).score)
 
-        
+        viewModel = ViewModelProviders.of(this,viewModelFactory).get(ScoreViewModel::class.java)
+
+        binding.scoreText.text = viewModel.score.toString()
 
         return binding.root
     }
