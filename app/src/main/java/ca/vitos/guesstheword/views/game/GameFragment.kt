@@ -30,73 +30,37 @@ class GameFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.game_fragment,
             container,false)
 
-        resetList()
-        nextWord()
+        viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         binding.correctButton.setOnClickListener { onCorrect() }
         binding.skipButton.setOnClickListener { onSkip() }
+        updateWordText()
+        updateScore()
         return binding.root
     }
 
-    private fun nextWord() {
-        if (!wordList.isEmpty()){
-            word = wordList.removeAt(0)
-        }
-        updateWordText()
-        updateScore()
-    }
-
-    private fun resetList() {
-        wordList = mutableListOf(
-            "queen",
-            "hospital",
-            "basketball",
-            "cat",
-            "change",
-            "snail",
-            "soup",
-            "calendar",
-            "sad",
-            "desk",
-            "guitar",
-            "home",
-            "railway",
-            "zebra",
-            "jelly",
-            "car",
-            "crow",
-            "trade",
-            "bag",
-            "roll",
-            "bubble"
-        )
-        wordList.shuffle()
-    }
 
     private fun onCorrect(){
-        if(!wordList.isEmpty()){
-           score++
-        }
-        nextWord()
+        viewModel.onCorrect()
+        updateScore()
+        updateWordText()
     }
 
     private fun onSkip(){
-        if(!wordList.isEmpty()){
-            score--
-        }
-        nextWord()
+        viewModel.onSkip()
+        updateWordText()
+        updateScore()
     }
     private fun updateWordText(){
-        binding.wordText.text = word
+        binding.wordText.text = viewModel.word
     }
     private fun updateScore(){
-        binding.scoreText.text = score.toString()
+        binding.scoreText.text = viewModel.score.toString()
     }
 }
