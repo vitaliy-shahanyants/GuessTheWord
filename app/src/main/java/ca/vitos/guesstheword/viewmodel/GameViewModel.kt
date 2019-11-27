@@ -8,6 +8,7 @@ class GameViewModel: ViewModel() {
     var word = ""
 
     var score = 0
+        private set
 
     private lateinit var wordList: MutableList<String>
 
@@ -48,8 +49,9 @@ class GameViewModel: ViewModel() {
 
     private fun nextWord() {
         if (!wordList.isEmpty()) {
-            word = wordList.get(0)
+            word = wordList.removeAt(0)
         }
+
     }
 
     fun onSkip(){
@@ -62,6 +64,7 @@ class GameViewModel: ViewModel() {
         if(!wordList.isEmpty()){
             score++
         }
+        nextWord()
     }
 
     override fun onCleared() {

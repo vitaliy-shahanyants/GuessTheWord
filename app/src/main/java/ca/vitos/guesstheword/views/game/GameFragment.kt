@@ -4,22 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.navArgs
 import ca.vitos.guesstheword.R
 import ca.vitos.guesstheword.databinding.GameFragmentBinding
 import ca.vitos.guesstheword.viewmodel.GameViewModel
+import ca.vitos.guesstheword.views.score.ScoreFragmentArgs
 
 class GameFragment: Fragment() {
 
     // The current word
-    private var word = ""
+    var word = ""
 
     // The current score
-    private var score = 0
-
-    private lateinit var wordList: MutableList<String>
+    var score = 0
 
     private lateinit var binding: GameFragmentBinding
 
@@ -35,13 +38,16 @@ class GameFragment: Fragment() {
             inflater,
             R.layout.game_fragment,
             container,false)
-
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
+        binding.viewmodel = viewModel
         binding.correctButton.setOnClickListener { onCorrect() }
         binding.skipButton.setOnClickListener { onSkip() }
+        binding.endGameButton.setOnClickListener { onGameEnd() }
+
         updateWordText()
         updateScore()
+
         return binding.root
     }
 
@@ -62,5 +68,14 @@ class GameFragment: Fragment() {
     }
     private fun updateScore(){
         binding.scoreText.text = viewModel.score.toString()
+    }
+    private fun onGameEnd(){
+        gameFinished()
+    }
+    private fun gameFinished(){
+        Toast.makeText(activity,"Game Has Finished",Toast.LENGTH_SHORT).show()
+        val action = GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score)
+        NavHostFragment.findNavController(this).navigate(action)
+
     }
 }
