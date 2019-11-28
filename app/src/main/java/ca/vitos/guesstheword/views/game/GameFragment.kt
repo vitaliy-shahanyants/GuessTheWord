@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavArgs
 import androidx.navigation.fragment.NavHostFragment
@@ -45,8 +46,13 @@ class GameFragment: Fragment() {
         binding.skipButton.setOnClickListener { onSkip() }
         binding.endGameButton.setOnClickListener { onGameEnd() }
 
-        updateWordText()
-        updateScore()
+        viewModel.score.observe(this, Observer{ newScore ->
+            binding.scoreText.text = newScore.toString()
+        })
+        viewModel.word.observe(this, Observer { newWord ->
+            binding.wordText.text = newWord
+        })
+
 
         return binding.root
     }
@@ -54,27 +60,19 @@ class GameFragment: Fragment() {
 
     private fun onCorrect(){
         viewModel.onCorrect()
-        updateScore()
-        updateWordText()
+
     }
 
     private fun onSkip(){
         viewModel.onSkip()
-        updateWordText()
-        updateScore()
-    }
-    private fun updateWordText(){
-        binding.wordText.text = viewModel.word
-    }
-    private fun updateScore(){
-        binding.scoreText.text = viewModel.score.toString()
+
     }
     private fun onGameEnd(){
         gameFinished()
     }
     private fun gameFinished(){
         Toast.makeText(activity,"Game Has Finished",Toast.LENGTH_SHORT).show()
-        val action = GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score)
+        val action = GameFragmentDirections.actionGameFragmentToScoreFragment(viewModel.score.value?:0)
         NavHostFragment.findNavController(this).navigate(action)
 
     }

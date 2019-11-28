@@ -1,13 +1,14 @@
 package ca.vitos.guesstheword.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
 
-    var word = ""
+    var word = MutableLiveData<String>()
 
-    var score = 0
+    var score = MutableLiveData<Int>()
         private set
 
     private lateinit var wordList: MutableList<String>
@@ -15,6 +16,8 @@ class GameViewModel: ViewModel() {
 
 
     init {
+        word.value = ""
+        score.value = 0
         resetList()
         nextWord()
         Log.d("GameViewModel","GameViewModel is created")
@@ -49,20 +52,20 @@ class GameViewModel: ViewModel() {
 
     private fun nextWord() {
         if (!wordList.isEmpty()) {
-            word = wordList.removeAt(0)
+            word.value = wordList.removeAt(0)
         }
 
     }
 
     fun onSkip(){
         if(!wordList.isEmpty()){
-            score--
+            score.value = (score.value)?.minus(1)
         }
         nextWord()
     }
     fun onCorrect(){
         if(!wordList.isEmpty()){
-            score++
+            score.value = (score.value)?.plus(1)
         }
         nextWord()
     }
