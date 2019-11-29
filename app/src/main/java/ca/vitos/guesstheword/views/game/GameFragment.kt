@@ -42,9 +42,9 @@ class GameFragment: Fragment() {
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         binding.viewmodel = viewModel
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
-        binding.endGameButton.setOnClickListener { onGameEnd() }
+//        binding.correctButton.setOnClickListener { onCorrect() }
+//        binding.skipButton.setOnClickListener { onSkip() }
+//        binding.endGameButton.setOnClickListener { onGameEnd() }
 
         viewModel.score.observe(this, Observer{ newScore ->
             binding.scoreText.text = newScore.toString()
@@ -63,18 +63,6 @@ class GameFragment: Fragment() {
     }
 
 
-    private fun onCorrect(){
-        viewModel.onCorrect()
-
-    }
-
-    private fun onSkip(){
-        viewModel.onSkip()
-
-    }
-    private fun onGameEnd(){
-        gameFinished()
-    }
     private fun gameFinished(){
         Toast.makeText(activity,"Game Has Finished",Toast.LENGTH_SHORT).show()
         //val action = GameFragmentDirections.actionGameFragmentToScoreFragment(score = viewModel.score.value?:0)
