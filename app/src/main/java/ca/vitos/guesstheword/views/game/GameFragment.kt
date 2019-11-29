@@ -44,14 +44,6 @@ class GameFragment: Fragment() {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-        binding.endGameButton.setOnClickListener { view ->
-            viewModel.onGameFinish()
-        }
-
-        viewModel.score.observe(this, Observer{ newScore ->
-            binding.scoreText.text = newScore.toString()
-        })
-
         viewModel.eventGameFinish.observe(this, Observer { hasFinished ->
             if (hasFinished) gameFinished()
         })

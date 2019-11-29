@@ -33,9 +33,6 @@ class ScoreFragment: Fragment() {
 
 
 
-//        viewModel.score.observe(this, Observer { newScore ->
-//            binding.scoreText.text = newScore.toString()
-//        })
         viewModel.eventPlayAgain.observe(this, Observer { playAgain ->
             if(playAgain){
                 findNavController().navigate(ScoreFragmentDirections.actionScoreFragmentToGameFragment())
