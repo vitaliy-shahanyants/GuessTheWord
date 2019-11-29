@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/word_is_text"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@{viewmodel.word}" />
+            tools:text="@{@string/quote_format(viewmodel.word)}" />
 
         <TextView
             android:id="@+id/timer_text"
@@ -78,7 +78,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Score: 2" />
+            tools:text="@{@string/score_format(viewmodel.score)}" />
 
         <Button
             android:id="@+id/skip_button"
@@ -119,7 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:onClick="@{ ()->viewmodel.onGameFinish() }"
+
             android:text="@string/end_game"
             android:theme="@style/SkipButton"
             app:layout_constraintBottom_toBottomOf="parent"

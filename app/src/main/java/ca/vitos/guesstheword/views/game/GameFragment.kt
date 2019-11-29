@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavArgs
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ca.vitos.guesstheword.R
 import ca.vitos.guesstheword.databinding.GameFragmentBinding
@@ -23,7 +23,7 @@ class GameFragment: Fragment() {
     var word = ""
 
     // The current score
-    var score = 0
+    //var score = 0
 
     private lateinit var binding: GameFragmentBinding
 
@@ -42,16 +42,14 @@ class GameFragment: Fragment() {
         viewModel = ViewModelProviders.of(this).get(GameViewModel::class.java)
 
         binding.viewmodel = viewModel
-//        binding.correctButton.setOnClickListener { onCorrect() }
-//        binding.skipButton.setOnClickListener { onSkip() }
-//        binding.endGameButton.setOnClickListener { onGameEnd() }
+        binding.lifecycleOwner = this
+
+        binding.endGameButton.setOnClickListener { view ->
+            viewModel.onGameFinish()
+        }
 
         viewModel.score.observe(this, Observer{ newScore ->
             binding.scoreText.text = newScore.toString()
-        })
-
-        viewModel.word.observe(this, Observer { newWord ->
-            binding.wordText.text = newWord
         })
 
         viewModel.eventGameFinish.observe(this, Observer { hasFinished ->
@@ -65,8 +63,8 @@ class GameFragment: Fragment() {
 
     private fun gameFinished(){
         Toast.makeText(activity,"Game Has Finished",Toast.LENGTH_SHORT).show()
-        //val action = GameFragmentDirections.actionGameFragmentToScoreFragment(score = viewModel.score.value?:0)
-        //NavHostFragment.findNavController(this).navigate(action)
+        val action = GameFragmentDirections.actionGameFragmentToScoreFragment(score = viewModel.score.value?:0)
+        findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
     }
 }
