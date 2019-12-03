@@ -1,5 +1,6 @@
 package ca.vitos.guesstheword.views.game
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,8 @@ class GameFragment: Fragment() {
 
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
+        binding.timerText.visibility = View.VISIBLE
+        binding.timerText.text = "00:00"
 
         viewModel.eventGameFinish.observe(this, Observer { hasFinished ->
             if (hasFinished) gameFinished()
@@ -54,7 +57,6 @@ class GameFragment: Fragment() {
 
 
     private fun gameFinished(){
-        Toast.makeText(activity,"Game Has Finished",Toast.LENGTH_SHORT).show()
         val action = GameFragmentDirections.actionGameFragmentToScoreFragment(score = viewModel.score.value?:0)
         findNavController(this).navigate(action)
         viewModel.onGameFinishComplete()
